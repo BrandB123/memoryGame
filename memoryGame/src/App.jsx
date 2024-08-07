@@ -1,31 +1,6 @@
 import React, { useEffect, useState } from 'react'
-// import { createClient } from 'pexels';
 import imageRequest from './imageRequest'
 import './App.css'
-
-
-
-// async function imageRequest() {
-//   const result = await fetch(
-//     `https://api.pexels.com/v1/search?query=Nature&per_page=8&page=1`,
-//       {
-//         headers: {
-//           Authorization: 'fEdd3dOlaQn3a9ZTJy8jG5iAZNZEhiwYqcnh4MrouRygOrhUI11zBK92',
-//         },
-//       },
-//     )
-//   return result.json();
-// }
-
-// const testing = imageRequest();
-
-// console.log(testing);
-
-
-
-
-
-
 
 
 export default function App() {
@@ -42,24 +17,16 @@ export default function App() {
     }
   }
 
-  
+
   const updateHighScore = () => {
     if ( currentScore === 0){
       setHighScore(currentScore);
     }
   }
-
-
-  // const APICall = {
-  //   client : createClient('fEdd3dOlaQn3a9ZTJy8jG5iAZNZEhiwYqcnh4MrouRygOrhUI11zBK92'),
-  //   query : 'Nature'
-  // }
-
-
   return (
     <>
       <Header className='header' currentScore={ currentScore } highScore={ highScore }/>
-      <Board className='tileContainer' /*API={ APICall }*//>
+      <Board className='tileContainer' />
       <Instructions />
       <Footer />
     </>
@@ -68,7 +35,6 @@ export default function App() {
 
 
 function Header({ currentScore, highScore}){
-
   return (
     <>
       <div className="header">
@@ -81,22 +47,8 @@ function Header({ currentScore, highScore}){
 }
 
 
-function Board(/*{ API }*/){
-  // const query = API.query;
+function Board(){
   const [images, setImages] = useState([]);
-
-  // useEffect(() => {
-  //   API.client.photos.search({
-  //     query, per_page: 8 
-  //   }).then(photos => {
-  //     const newImages = photos.photos.map((photo) => ({
-  //         alt : photo.alt,
-  //         src : photo.src.original,
-  //       }));
-  //       setImages(newImages);
-  //   })
-  // }, []);
-
 
   useEffect(() => {
     imageRequest().then(photos => {
@@ -104,12 +56,9 @@ function Board(/*{ API }*/){
           alt : photo.alt,
           src : photo.src.original,
         }));
-        console.log(newImages)
         setImages(newImages);
     })
   }, []);
-
-
   return(
     <div className='board'>
       { images.length > 0 ?
@@ -123,7 +72,6 @@ function Board(/*{ API }*/){
 
 
 function Tile({src, alt}){
-  
   return(
     <div className='tile' >
       <img src={ src } alt={ alt }/>
