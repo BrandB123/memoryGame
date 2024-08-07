@@ -1,7 +1,7 @@
 #root {
   margin: 0;
   display: grid;
-  grid-template: 80px auto / auto;
+  grid-template: 80px auto 80px / auto;
 }
 
 .header{
@@ -56,6 +56,12 @@ img {
   font-weight: 800;
 }
 
+.loadingMessage{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
 
 .instructions{
   background-color: rgb(255, 0, 0, 65%);
@@ -68,4 +74,11 @@ img {
   top: 50%;
   transform: translate(-50%);
   visibility: visible;
+}
+
+.footer{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  color: gray;
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import example from './assets/images/stockimage.jpg'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { createClient } from 'pexels';
 import './App.css'
+
 
 export default function App() {
   const [currentScore, setCurrentScore] = useState(0);
@@ -24,11 +23,17 @@ export default function App() {
     }
   }
 
+  const APICall = {
+    client : createClient('fEdd3dOlaQn3a9ZTJy8jG5iAZNZEhiwYqcnh4MrouRygOrhUI11zBK92'),
+    query : 'Nature'
+  }
+
   return (
     <>
       <Header className='header' currentScore={ currentScore } highScore={ highScore }/>
-      <Board className='tileContainer'/>
+      <Board className='tileContainer' API={ APICall }/>
       <Instructions />
+      <Footer />
     </>
   )
 }
@@ -46,40 +51,56 @@ function Header({ currentScore, highScore}){
   )
 }
 
-function Board(){
+function Board({ API }){
+  const query = API.query;
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    API.client.photos.search({
+      query, per_page: 8 
+    }).then(photos => {
+      const newImages = photos.photos.map((photo) => ({
+          alt : photo.alt,
+          src : photo.src.original,
+        }));
+        setImages(newImages);
+    })
+  }, []);
   return(
     <div className='board'>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
-        <Tile src={ example } title='title'/>
+      { images.length > 0 ?
+          images.map((image, index) =>{
+            return <Tile src={image.src} alt={image.alt}/>
+        }) : <p className="loadingMessage">Loading ...</p>
+      }
     </div> 
   );
 }
 
-function Tile({src, title}){
-  // useEffect(() => {
-  //   // body
-  // }, [/*dependency array*/])
+
+function Tile({src, alt}){
   
   return(
     <div className='tile' >
-      <img src={ src } alt='this will pull from an API'/>
-      <div className='imageTitle'>
-        {title}
-      </div>
+      <img src={ src } alt={ alt }/>
     </div>
   );
 }
+
 
 function Instructions(){
   return(
     <div className='instructions'>
       Click icons to earn points. Click each tile exactly once to win!
+    </div>
+  );
+}
+
+
+function Footer(){
+  return (
+    <div className='footer'>
+      <a href="https://www.pexels.com">Photos provided by Pexels</a>
     </div>
   );
 }
