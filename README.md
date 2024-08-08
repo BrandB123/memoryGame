@@ -12,7 +12,7 @@ This application demonstrates an understanding of the following concepts:
  - Refs
  - Deploying to Vercel
 
-Live Preview: https://vercel.com/brandon-bartletts-projects/memory-game
+Live Preview: https://memory-game-six-sepia.vercel.app/
 
 Favicon created with Imagine.art
 Photos provided by Pexels
